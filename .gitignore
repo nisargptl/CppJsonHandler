@@ -2,7 +2,7 @@
 /build/
 /*.o
 /*.exe
-
+/vcpkg/
 # Ignore IDE-specific files
 /.vscode/
 /.idea/
