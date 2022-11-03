@@ -2,6 +2,7 @@
 #define AUTO_JSON_HELPER_H
 
 #include "json_serializer.h"
+#include <vector>
 
 namespace CppAutoSerializer {
 
@@ -38,6 +39,43 @@ namespace CppAutoSerializer {
                 if (dc.isBool()) var = dc.asBool();
             } else if constexpr (std::is_same<T, std::string>::value) {
                 if (dc.isString()) var = dc.asString();
+            }
+        }
+
+        // Handling std::vector<T>
+        template <typename T>
+        void _unmarshal_into_obj_(std::vector<T> &var, const Json::Value &dc) {
+            if (dc.isArray()) {
+                var.clear();
+                for (const auto &item : dc) {
+                    T element;
+                    _unmarshal_into_obj_(element, item);
+                    var.push_back(element);
+                }
+            }
+        }
+
+        template <typename T>
+        void Map(const std::string &json_key, std::vector<T> &member) {
+            if (method_ == Internal::AutoJsonMethod::Marshal) {
+                json_string_ += "\"" + json_key + "\":[";
+                for (const auto &item : member) {
+                    std::string element_json;
+                    _marshal_into_obj_(item, element_json);
+                    json_string_ += element_json + ",";
+                }
+                json_string_ = json_string_.substr(0, json_string_.size() - 1) + "],";
+            }
+        }
+
+    private:
+        template <typename T>
+        void _marshal_into_obj_(T &member, std::string &json) {
+            if constexpr (std::is_same<T, int>::value || std::is_same<T, float>::value ||
+                          std::is_same<T, double>::value || std::is_same<T, bool>::value) {
+                json = std::to_string(member);
+            } else if constexpr (std::is_same<T, std::string>::value) {
+                json = "\"" + member + "\"";
             }
         }
     };
