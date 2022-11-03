@@ -3,6 +3,7 @@
 
 #include "json_serializer.h"
 #include <vector>
+#include <map>
 
 namespace CppAutoSerializer {
 
@@ -55,6 +56,19 @@ namespace CppAutoSerializer {
             }
         }
 
+        // Handling std::map<std::string, T>
+        template <typename T>
+        void _unmarshal_into_obj_(std::map<std::string, T> &var, const Json::Value &dc) {
+            if (dc.isObject()) {
+                var.clear();
+                for (const auto &member : dc.getMemberNames()) {
+                    T element;
+                    _unmarshal_into_obj_(element, dc[member]);
+                    var[member] = element;
+                }
+            }
+        }
+
         template <typename T>
         void Map(const std::string &json_key, std::vector<T> &member) {
             if (method_ == Internal::AutoJsonMethod::Marshal) {
@@ -65,6 +79,19 @@ namespace CppAutoSerializer {
                     json_string_ += element_json + ",";
                 }
                 json_string_ = json_string_.substr(0, json_string_.size() - 1) + "],";
+            }
+        }
+
+        template <typename T>
+        void Map(const std::string &json_key, std::map<std::string, T> &member) {
+            if (method_ == Internal::AutoJsonMethod::Marshal) {
+                json_string_ += "\"" + json_key + "\":{";
+                for (const auto &pair : member) {
+                    std::string element_json;
+                    _marshal_into_obj_(pair.second, element_json);
+                    json_string_ += "\"" + pair.first + "\":" + element_json + ",";
+                }
+                json_string_ = json_string_.substr(0, json_string_.size() - 1) + "},";
             }
         }
 
