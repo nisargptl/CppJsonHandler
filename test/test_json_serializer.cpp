@@ -15,6 +15,15 @@ TEST(AutoJsonTest, SerializationTest) {
     ASSERT_NE(json_string.find("\"name\":\"Alice\""), std::string::npos);
 }
 
+TEST(AutoJsonTest, DeserializationTest) {
+    std::string json_string = R"({"id":123,"name":"Bob"})";
+    Demo demo;
+    JsonSerializer::Deserialize(json_string, demo);
+
+    ASSERT_EQ(demo.id, 123);
+    ASSERT_EQ(demo.name, "Bob");
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
