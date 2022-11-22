@@ -2,7 +2,7 @@
 #include "json_serializer.h"
 #include <gtest/gtest.h>
 
-using namespace CppAutoSerializer;
+using namespace CppJsonHandler;
 
 TEST(AutoJsonTest, SerializationTest) {
     Demo demo;

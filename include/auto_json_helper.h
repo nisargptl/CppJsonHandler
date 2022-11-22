@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-namespace CppAutoSerializer {
+namespace CppJsonHandler {
 
     class AutoJsonHelper {
     public:
@@ -107,6 +107,6 @@ namespace CppAutoSerializer {
         }
     };
 
-} // namespace CppAutoSerializer
+} // namespace CppJsonHandler
 
 #endif // AUTO_JSON_HELPER_H

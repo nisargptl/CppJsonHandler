@@ -5,7 +5,7 @@
 #include <type_traits>
 #include "json/json.h"
 
-namespace CppAutoSerializer {
+namespace CppJsonHandler {
     namespace Internal {
 
         enum class AutoJsonMethod {
@@ -55,6 +55,6 @@ namespace CppAutoSerializer {
         }
     };
 
-} // namespace CppAutoSerializer
+} // namespace CppJsonHandler
 
 #endif // JSON_SERIALIZER_H

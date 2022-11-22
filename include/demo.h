@@ -3,7 +3,7 @@
 
 #include "auto_json_helper.h"
 
-namespace CppAutoSerializer {
+namespace CppJsonHandler {
 
     class Demo : public AutoJsonHelper {
     public:
@@ -16,6 +16,6 @@ namespace CppAutoSerializer {
         }
     };
 
-} // namespace CppAutoSerializer
+} // namespace CppJsonHandler
 
 #endif // DEMO_H
